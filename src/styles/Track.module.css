@@ -1,0 +1,10 @@
+.track {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+.button {
+    min-width: 2rem;
+    height: 2rem;
+}

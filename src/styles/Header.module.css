@@ -1,0 +1,14 @@
+.header {
+    text-align: center;
+}
+
+.title {
+    color: white;
+    border-bottom: 1px white solid;
+    margin: 0;
+    padding: 2rem;
+}
+
+.title>span {
+    color: #3CB371;
+}
