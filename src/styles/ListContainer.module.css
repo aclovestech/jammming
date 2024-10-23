@@ -1,0 +1,43 @@
+.container {
+    background-color: #4B0082;
+    width: 300px;
+    height: 500px;
+    border-radius: 1rem;
+    display: flex;
+    flex-direction: column;
+    overflow: scroll;
+}
+
+.title,
+.input {
+    background-color: #4B0082;
+    position: sticky;
+    top: 0;
+    z-index: 10;
+    border-bottom: 1px;
+    border-color: white;
+    border-bottom-style: solid;
+    font-size: 2.4rem;
+}
+
+.title {
+    padding-top: 1rem;
+    padding-left: 1.5rem;
+    padding-bottom: 1rem;
+}
+
+.input {
+    font-weight: bold;
+    color: white;
+    padding-top: 1.5rem;
+    padding-left: 1.5rem;
+    padding-bottom: 1.5rem;
+    width: 100%;
+    border-style: none;
+    border-bottom: 1px;
+    border-bottom-style: solid;
+}
+
+.input:focus {
+    outline: none;
+}
