@@ -10,6 +10,7 @@ export default function SearchResultsContainer(props) {
         tracks={props.searchResults}
         playlist={props.playlist}
         setPlaylist={props.setPlaylist}
+        isAddingToPlaylist={true}
       />
     </section>
   );
