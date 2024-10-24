@@ -37,6 +37,7 @@ export default function Playlist(props) {
         tracks={props.playlist.tracks}
         playlist={props.playlist}
         setPlaylist={props.setPlaylist}
+        isAddingToPlaylist={false}
       />
     </section>
   );

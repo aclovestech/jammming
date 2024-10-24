@@ -12,6 +12,7 @@ export default function Tracklist(props) {
             key={track.id}
             playlist={props.playlist}
             setPlaylist={props.setPlaylist}
+            isAddingToPlaylist={props.isAddingToPlaylist}
           />
         );
       })}
