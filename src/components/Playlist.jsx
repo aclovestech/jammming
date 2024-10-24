@@ -1,43 +1,36 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import Tracklist from "./Tracklist";
+import SaveToSpotifyButton from "./SaveToSpotifyButton";
 import styles from "../styles/ListContainer.module.css";
 
-export default function Playlist(props) {
-  const [playlistNameInput, setPlaylistNameInput] = useState("");
-
-  useEffect(() => {
-    setPlaylistNameInput(props.playlist.name);
-  }, []);
-
+export default function Playlist({
+  playlist,
+  setPlaylist,
+  isAuthenticated,
+  setIsAuthenticated,
+}) {
   function handleChange({ target }) {
-    setPlaylistNameInput(target.value);
-  }
-
-  function handlePlaylistNameChange(e) {
-    e.preventDefault();
-
-    if (playlistNameInput === "") {
-      setPlaylistNameInput("My Playlist");
-      props.setPlaylist((prev) => ({ ...prev, name: "My Playlist" }));
-    } else {
-      props.setPlaylist((prev) => ({ ...prev, name: playlistNameInput }));
-    }
+    setPlaylist((prev) => ({ ...prev, name: target.value }));
   }
 
   return (
     <section id="playlist-container" className={styles.container}>
-      <form onSubmit={handlePlaylistNameChange}>
-        <input
-          onChange={handleChange}
-          value={playlistNameInput}
-          className={styles.input}
-        />
-      </form>
+      <input
+        onChange={handleChange}
+        value={playlist.name}
+        className={styles.input}
+      />
       <Tracklist
-        tracks={props.playlist.tracks}
-        playlist={props.playlist}
-        setPlaylist={props.setPlaylist}
+        tracks={playlist.tracks}
+        playlist={playlist}
+        setPlaylist={setPlaylist}
         isAddingToPlaylist={false}
+      />
+      <SaveToSpotifyButton
+        playlist={playlist}
+        setPlaylist={setPlaylist}
+        isAuthenticated={isAuthenticated}
+        setIsAuthenticated={setIsAuthenticated}
       />
     </section>
   );

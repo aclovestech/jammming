@@ -43,7 +43,7 @@ export function saveTokenInfoFromHash() {
   }
 }
 
-export function logoutOfSpotify() {
+export function clearLocalStorage() {
   window.localStorage.removeItem(TOKEN_LOCAL_KEY);
   window.localStorage.removeItem(TOKEN_EXPIRATION_LOCAL_KEY);
 }
@@ -107,6 +107,92 @@ export async function searchQuery(query) {
     });
 
     return tracks;
+  } catch (error) {
+    console.error(error.message);
+  }
+}
+
+async function getUserId() {
+  const token = window.localStorage.getItem(TOKEN_LOCAL_KEY);
+
+  const url = `${API_ENDPOINT}/me`;
+  const request = new Request(url, {
+    method: "GET",
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+
+  try {
+    const response = await fetch(request);
+
+    if (!response.ok) {
+      throw new Error(`Response status: ${response.status}`);
+    }
+
+    const json = await response.json();
+
+    return json.id;
+  } catch (error) {
+    console.error(error.message);
+  }
+}
+
+async function createPlaylist(userId, playlistName) {
+  const token = window.localStorage.getItem(TOKEN_LOCAL_KEY);
+
+  const url = `${API_ENDPOINT}/users/${userId}/playlists`;
+  const request = new Request(url, {
+    method: "POST",
+    headers: {
+      Authorization: `Bearer ${token}`,
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      name: playlistName,
+      public: false,
+    }),
+  });
+
+  try {
+    const response = await fetch(request);
+
+    if (!response.ok) {
+      throw new Error(`Response status: ${response.status}`);
+    }
+
+    const json = await response.json();
+
+    return json.id;
+  } catch (error) {
+    console.error(error.message);
+  }
+}
+
+export async function savePlaylistToSpotify(playlistName, tracks) {
+  const token = window.localStorage.getItem(TOKEN_LOCAL_KEY);
+
+  const userId = await getUserId();
+  const playlistId = await createPlaylist(userId, playlistName);
+  const uris = tracks.join();
+
+  const url = `${API_ENDPOINT}/playlists/${playlistId}/tracks?uris=${uris}`;
+  const request = new Request(url, {
+    method: "PUT",
+    headers: {
+      Authorization: `Bearer ${token}`,
+      "Content-Type": "application/json",
+    },
+  });
+
+  try {
+    const response = await fetch(request);
+
+    if (!response.ok) {
+      throw new Error(`Response status: ${response.status}`);
+    }
+
+    return response.ok;
   } catch (error) {
     console.error(error.message);
   }

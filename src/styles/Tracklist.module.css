@@ -4,4 +4,5 @@
     flex-direction: column;
     list-style-type: none;
     gap: 2rem;
+    flex: 1;
 }
