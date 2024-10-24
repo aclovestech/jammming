@@ -20,17 +20,17 @@ export default function Track(props) {
 
   function determineAddOrRemove() {
     if (props.isAddingToPlaylist) {
-      return <i class="fa-solid fa-plus" onClick={handleAddToPlaylist}></i>;
+      return <i className="fa-solid fa-plus" onClick={handleAddToPlaylist}></i>;
     } else {
       return (
-        <i class="fa-solid fa-minus" onClick={handleRemoveFromPlaylist}></i>
+        <i className="fa-solid fa-minus" onClick={handleRemoveFromPlaylist}></i>
       );
     }
   }
 
   return (
     <li className={styles.track}>
-      <div>
+      <div className={styles.trackInfo}>
         <h3>{name}</h3>
         <p>
           {artist} | {album}
