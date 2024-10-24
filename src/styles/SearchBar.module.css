@@ -15,7 +15,14 @@
     height: 3.5rem;
 }
 
-.searchBtn {
+.loginContainer {
+    display: flex;
+    justify-content: center;
+    margin-top: 2rem;
+}
+
+.searchBtn,
+.loginWithSpotifyBtn {
     width: 10rem;
     height: 5rem;
     border-radius: 3rem;
