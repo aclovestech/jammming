@@ -1,0 +1,10 @@
+.saveToSpotifyBtn {
+    width: 10rem;
+    height: 5rem;
+    border-radius: 3rem;
+    background-color: #005e2b;
+    color: white;
+    align-self: center;
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+}

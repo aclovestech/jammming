@@ -1,31 +1,21 @@
 import React from "react";
 import styles from "../styles/Track.module.css";
 
-export default function Track(props) {
-  const { name, artist, album } = props.track;
+export default function Track({ track, setPlaylist, isAddingToPlaylist }) {
+  const { name, artist, album } = track;
 
   function handleAddToPlaylist() {
-    props.setPlaylist((prev) => ({
+    setPlaylist((prev) => ({
       ...prev,
-      tracks: [...prev.tracks, props.track],
+      tracks: [...prev.tracks, track],
     }));
   }
 
   function handleRemoveFromPlaylist() {
-    props.setPlaylist((prev) => ({
+    setPlaylist((prev) => ({
       ...prev,
-      tracks: prev.tracks.filter((track) => track.id !== props.track.id),
+      tracks: prev.tracks.filter((prevTrack) => prevTrack.id !== track.id),
     }));
-  }
-
-  function determineAddOrRemove() {
-    if (props.isAddingToPlaylist) {
-      return <i className="fa-solid fa-plus" onClick={handleAddToPlaylist}></i>;
-    } else {
-      return (
-        <i className="fa-solid fa-minus" onClick={handleRemoveFromPlaylist}></i>
-      );
-    }
   }
 
   return (
@@ -36,7 +26,11 @@ export default function Track(props) {
           {artist} | {album}
         </p>
       </div>
-      {determineAddOrRemove()}
+      {isAddingToPlaylist ? (
+        <i className="fa-solid fa-plus" onClick={handleAddToPlaylist}></i>
+      ) : (
+        <i className="fa-solid fa-minus" onClick={handleRemoveFromPlaylist}></i>
+      )}
     </li>
   );
 }

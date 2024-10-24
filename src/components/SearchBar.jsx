@@ -6,7 +6,11 @@ import {
   isTokenStillValid,
 } from "../SpotifyModule";
 
-export default function SearchBarContainer(props) {
+export default function SearchBarContainer({
+  setSearchResults,
+  isAuthenticated,
+  setIsAuthenticated,
+}) {
   const [searchInput, setSearchInput] = useState("");
 
   function handleChange({ target }) {
@@ -15,40 +19,50 @@ export default function SearchBarContainer(props) {
 
   async function handleSearch(e) {
     e.preventDefault();
+
+    if (searchInput === "") {
+      alert("Please enter a valid search query.");
+      return;
+    }
+
     if (!isTokenStillValid()) {
       alert("Please try again...");
-      props.setIsAuthenticated(false);
+      setIsAuthenticated(false);
     } else {
       const tracksFromQuery = await searchQuery(searchInput);
-      props.setSearchResults(tracksFromQuery);
+      setSearchResults(tracksFromQuery);
     }
   }
 
-  function showLoginBtnOrForm() {
-    if (!props.isAuthenticated) {
-      return (
-        <div className={styles.loginContainer}>
-          <button
-            onClick={loginWithSpotify}
-            className={styles.loginWithSpotifyBtn}
-          >
-            Login with Spotify
-          </button>
-        </div>
-      );
-    } else {
-      return (
-        <form className={styles.search} onSubmit={handleSearch}>
-          <input
-            className={styles.searchBar}
-            value={searchInput}
-            onChange={handleChange}
-          />
-          <input className={styles.searchBtn} type="submit" value="Search" />
-        </form>
-      );
-    }
+  function showLoginWithSpotifyBtn() {
+    return (
+      <div className={styles.loginContainer}>
+        <button
+          onClick={loginWithSpotify}
+          className={styles.loginWithSpotifyBtn}
+        >
+          Login with Spotify
+        </button>
+      </div>
+    );
   }
 
-  return <section id="search-container">{showLoginBtnOrForm()}</section>;
+  function showSearchForm() {
+    return (
+      <form className={styles.search} onSubmit={handleSearch}>
+        <input
+          className={styles.searchBar}
+          value={searchInput}
+          onChange={handleChange}
+        />
+        <input className={styles.searchBtn} type="submit" value="Search" />
+      </form>
+    );
+  }
+
+  return (
+    <section id="search-container">
+      {!isAuthenticated ? showLoginWithSpotifyBtn() : showSearchForm()}
+    </section>
+  );
 }
